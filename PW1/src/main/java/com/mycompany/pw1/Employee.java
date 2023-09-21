@@ -21,7 +21,7 @@ public class Employee {
         this.surname = "nosurname";
         this.salary = 0;
     }
-    
+        
     public void AddNameSurname(String name, String surname) throws FieldLengthLimitException{
         if(name.length() > 20){throw new FieldLengthLimitException("ID: " + this.id + " Too much symbols in name!");}
         else this.name = name;
@@ -37,4 +37,33 @@ public class Employee {
     public void PrintInfo(){
         System.out.println("ID: " + id + "\nName: " + name + "\nSurname: " + surname + "\nSalary: " + salary);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public int getId() {
+        return id;
+    }
+    
 }
