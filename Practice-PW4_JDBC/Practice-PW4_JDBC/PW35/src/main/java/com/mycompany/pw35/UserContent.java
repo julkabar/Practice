@@ -52,7 +52,7 @@ public class UserContent extends HttpServlet {
         }
         
         Connection conn=null;
-        conn= (Connection) DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","dgray1802");
+        conn= (Connection) DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","password");
 
         PreparedStatement ps= (PreparedStatement) conn.prepareStatement("select * from student where id = ?;");
             ps.setInt(1, Integer.parseInt(request.getParameter("id2")));

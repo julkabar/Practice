@@ -54,7 +54,7 @@ public class StudentAdd extends HttpServlet {
         }
 
         Connection conn=null;
-        conn= (Connection) DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","dgray1802");
+        conn= (Connection) DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","password");
         
         if(request.getParameter("name")!=null && request.getParameter("surname")!=null){
             PreparedStatement ps= conn.prepareStatement("Insert into student (sname, surname, sage, email, sgroup, faculty) "+
