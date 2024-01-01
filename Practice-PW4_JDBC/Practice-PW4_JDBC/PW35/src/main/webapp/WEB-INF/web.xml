@@ -1,25 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <display-name>spring-mvc</display-name>
     <servlet>
-        <servlet-name>StudentAdd</servlet-name>
-        <servlet-class>com.mycompany.pw35.StudentAdd</servlet-class>
+        <servlet-name>spring</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>WEB-INF/springMVC.xml</param-value>
+    	</init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
-    <servlet>
-        <servlet-name>UserContent</servlet-name>
-        <servlet-class>com.mycompany.pw35.UserContent</servlet-class>
-    </servlet>
+ 
     <servlet-mapping>
-        <servlet-name>StudentAdd</servlet-name>
-        <url-pattern>/StudentAdd</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UserContent</servlet-name>
-        <url-pattern>/UserContent</url-pattern>
+        <servlet-name>spring</servlet-name>
+        <url-pattern>/</url-pattern> 
     </servlet-mapping>
     
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
+    <filter>
+    <filter-name>characterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+        <param-name>encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+        <param-name>forceEncoding</param-name>
+        <param-value>true</param-value>
+    </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <servlet-mapping>
+      <servlet-name>default</servlet-name>
+      <url-pattern>/resources/*</url-pattern>
+    </servlet-mapping>
 </web-app>

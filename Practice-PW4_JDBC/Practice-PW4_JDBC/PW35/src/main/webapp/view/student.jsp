@@ -68,7 +68,7 @@
 <body>
   <div id="page">
         <h1><%= (new java.util.Date()).toLocaleString()%></h1>
-        <h1>SPRING | Dependency Injections</h1>
+        <h1>SPRING | MVC</h1>
         <form  method="post" action="StudentAdd">
             <table>
                 <tbody>
