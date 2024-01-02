@@ -4,29 +4,35 @@
  */
 package com.mycompany.pw35;
 
+import java.io.Serializable;
+import javax.persistence.*;
+
 /**
  *
  * @author Admin
  */
-public class Student {
-    int id;
-    static int nextid = 0;
+
+@Entity
+@Table(name="student", schema="public")
+public class Student implements Serializable{
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+    @Column(name = "sname")
     private String name;
+    @Column(name = "surname")
     private String surname;
+    @Column(name = "sage")
     private int age;
+    @Column(name = "email")
     private String email;
+    @Column(name = "sgroup")
     private String group;
+    @Column(name = "faculty")
     private String faculty;
 
-    public Student() {
-        this.id = nextid++;
-        this.name = "unknown";
-        this.surname = "unknown";
-        this.age = 0;
-        this.email = "unknown";
-        this.group = "unknown";
-        this.faculty = "unknown";
-    }
+    public Student() {}
     
     public Student(int id, String name, String surname, int age, String email, String group, String faculty) {
         this.id = id;

@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,10 @@ public class StudentController {
     List<Student> students;
     ApplicationContext factory;
     Student student;
-    
+
+        @Autowired
+        private StudentDAO sdao;
+        
         @ModelAttribute
         public void modelData(Model m){
             if(students==null){ students = new LinkedList<Student>();}
@@ -41,59 +45,29 @@ public class StudentController {
         
         @RequestMapping(value = "/")
 	public String home(Model m) {
+            students = sdao.getStudents();
+            m.addAttribute("students", students);
 		return "student";
 	}
         
         @RequestMapping("StudentAdd")
-        public String addStudent(HttpServletRequest request,HttpServletResponse response,Model m) throws IOException, SQLException{
-            ApplicationContext factory = new ClassPathXmlApplicationContext("/spring.xml");
-            List<Student> students;
-            
-            PrintWriter pw=null;
-            try{
-                pw=response.getWriter();
-                Class.forName("org.postgresql.Driver");
-            }
-            catch(ClassNotFoundException ex){
-                ex.printStackTrace(pw);
-                pw.print(ex.getMessage());
-            }
+        public String addStudent(HttpServletRequest request,Model m) {
 
-            Connection conn=null;
-            conn= (Connection) DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","password");
-
-            if(request.getParameter("name")!=null && request.getParameter("surname")!=null){
-                PreparedStatement ps= conn.prepareStatement("Insert into student (sname, surname, sage, email, sgroup, faculty) "+
-                        "Values (?, ?, ?, ?, ?, ?)");
-                ps.setString(1,request.getParameter("name"));
-                ps.setString(2,request.getParameter("surname"));
-                ps.setInt(3,Integer.parseInt(request.getParameter("age")));
-                ps.setString(4,request.getParameter("email"));
-                ps.setString(5,request.getParameter("group"));
-                ps.setString(6,request.getParameter("faculty"));
-                ps.executeUpdate();
-            }
-            Statement s= (Statement) conn.createStatement();
-            ResultSet rs=s.executeQuery("SELECT * FROM student;");
-            students =new LinkedList<Student>();
-            while(rs.next()){
+            if(request.getParameter("name") != null && request.getParameter("surname") != null) {
                 Student student = (Student)factory.getBean("Student");
-                student.setId(Integer.parseInt(rs.getString(1))); 
-                student.setName(rs.getString(2));
-                student.setSurname(rs.getString(3));
-                student.setAge(Integer.parseInt(rs.getString(4)));
-                student.setEmail(rs.getString(5));
-                student.setFaculty(rs.getString(6));
-                student.setGroup(rs.getString(7));
-                students.add(student);
-            }
-            
-            for(Student st:students){
-                System.out.println(st.getName());
-            }
+                
+                student.setName(request.getParameter("name"));
+                student.setSurname(request.getParameter("surname"));
+                student.setAge(Integer.parseInt(request.getParameter("age")));
+                student.setEmail(request.getParameter("email"));
+                student.setGroup(request.getParameter("group"));
+                student.setFaculty(request.getParameter("faculty"));
+                sdao.addStudent(student);
+                }
+                
+            students = sdao.getStudents();
             
             m.addAttribute("students", students);
-
             return "student";
         }  
 }

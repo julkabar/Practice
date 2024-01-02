@@ -4,16 +4,28 @@
  */
 package com.mycompany.pw35;
 
+import java.io.Serializable;
+import javax.persistence.*;
+
 /**
  *
  * @author Admin
  */
-public class Content {
-    int id;
-    int stud_id;
-    String title;
-    String score_l;
-    int score_num;
+@Entity
+@Table(name="smarks")
+public class Content implements Serializable {
+    @Id 
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id")
+    private int id;
+    @Column(name="stud_id")
+    private int stud_id;
+    @Column(name="title")
+    private String title;
+    @Column(name="mark_let")
+    private String score_l;
+    @Column(name="mark_num")
+    private int score_num;
     
     public Content(){}
     public Content(int id, int stud_id, String title, String score_l, int score_num) {
